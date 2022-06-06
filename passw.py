@@ -1,1 +1,1 @@
-PASSWORD = 'laita_salasanasi_tähän'
+PASSWORD = 'groveMaster'
