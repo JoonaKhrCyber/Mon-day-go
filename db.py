@@ -4,6 +4,8 @@ password = passw.PASSWORD
 cluster = "mongodb+srv://grovetender:"+password+"@faygrove.c0zaa.mongodb.net/?retryWrites=true&w=majority"
 client = MongoClient(cluster)
 
+# Miksi tämä pushaantuu eri tilillä ?
+
 db = client['AlbumDB']
 albums = db.Albums
 col = db['Albums']
