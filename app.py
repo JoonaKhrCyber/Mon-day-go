@@ -5,7 +5,7 @@ app = Tk()
 
 def add():
     if artist_text.get()!="" and album_text.get()!="" and year_text.get()!="" and genre_text.get()!="":
-        db.add_album(artist_text.get(),album_text.get(),year_text.get(), genre_text.get() )
+        db.add_album(artist_text.get(),album_text.get(),year_text.get(), genre_text.get())
         populate_albums()
 
 def remove():
