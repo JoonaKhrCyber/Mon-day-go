@@ -4,39 +4,39 @@ password = passw.PASSWORD
 cluster = "mongodb+srv://grovetender:"+password+"@faygrove.c0zaa.mongodb.net/?retryWrites=true&w=majority"
 client = MongoClient(cluster)
 
-# Miksi tämä pushaantuu eri tilillä ?
+class Database:
+    def __init__(self):
+        db = client['AlbumDB']
+        self.albums = db.Albums
+        self.col = db['Albums']
 
-db = client['AlbumDB']
-albums = db.Albums
-col = db['Albums']
+    def fetch_albums(self):
+        
+        albumList = []
+        for row in self.albums.find():
+            albumList.append(f"{row['artist']}-{row['album']}-{row['year']}-{row['genre']}")
+        return albumList
 
-def fetch_albums():
-    
-    albumList = []
-    for row in albums.find():
-        albumList.append(f"{row['artist']}-{row['album']}-{row['year']}-{row['genre']}")
-    return albumList
+    def remove(self, album):
+        self.col.delete_one({'artist': album[0]})
 
-def remove(album):
-    col.delete_one({'artist': album[0]})
+    def add_album(self, artist: str, album: str, year: int, genre: str):
+        self.col.insert_one({'artist': artist, 'album': album, 'year': int(year), 'genre': genre})
 
-def add_album(artist: str, album: str, year: int, genre: str):
-    col.insert_one({'artist': artist, 'album': album, 'year': int(year), 'genre': genre})
-
-def update(selectedAlbum, artist, album, year, genre):
-    filterr = {
-        'artist': selectedAlbum[0],
-        'album': selectedAlbum[1],
-        'year': int(selectedAlbum[2]),
-        'genre': selectedAlbum[3]
-    }
-    newValues = {'$set':{
-        'artist': artist,
-        'album': album,
-        'year': int(year),
-        'genre': genre
-    }}
-    albums.update_one(filterr, newValues)
+    def update(self, selectedAlbum, artist, album, year, genre):
+        filterr = {
+            'artist': selectedAlbum[0],
+            'album': selectedAlbum[1],
+            'year': int(selectedAlbum[2]),
+            'genre': selectedAlbum[3]
+        }
+        newValues = {'$set':{
+            'artist': artist,
+            'album': album,
+            'year': int(year),
+            'genre': genre
+        }}
+        self.albums.update_one(filterr, newValues)
 
 # Works for some odd reason ?
 # def update(selectedAlbum, artist, album, year, genre):
